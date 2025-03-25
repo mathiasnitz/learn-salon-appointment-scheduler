@@ -24,6 +24,7 @@ SELECT_SERVICE() {
   fi
 }
 
+
 CHECK_USER() {
   echo "Whats your phone number?"
   read CUSTOMER_PHONE
@@ -32,14 +33,13 @@ CHECK_USER() {
 
   if [[ -z $READ_CUSTOMER_PHONE_NUMBER ]]
   then
-    echo -e "\n- Number not found. Creating new user. -"
+    echo -e "\n- Number not found. Creating new user -"
     ADD_USER
   else
-    echo -e "\n- Number found. -"
+    echo -e "\n- Number found -"
     ADD_TO_SCHEDULE
   fi
 }
-
 
 
 ADD_USER() {
@@ -53,7 +53,6 @@ ADD_USER() {
 }
 
 
-
 ADD_TO_SCHEDULE() {
 
   CUSTOMER_NAME=$($PSQL "SELECT name FROM customers WHERE phone='$CUSTOMER_PHONE'")
@@ -65,6 +64,5 @@ ADD_TO_SCHEDULE() {
   ADDED_TO_SCHEDULE=$($PSQL "INSERT INTO appointments(customer_id,service_id, time) VALUES('$DISTINCT_CUSTOMER_ID','$SERVICE_ID_SELECTED', '$SERVICE_TIME')")
   echo -e "\nI have put you down for a $SERVICE_NAME at $SERVICE_TIME, $CUSTOMER_NAME."
 }
-
 
 SELECT_SERVICE
